@@ -1,0 +1,503 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Preposition Exercise (Year 1)</title>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="https://accounts.google.com/gsi/client" async defer></script>
+<style>
+/* ====== Global Styles & Theme ====== */
+:root {
+  --primary-color: #4FACFE; /* Friendly Blue */
+  --secondary-color: #00f2fe; /* Light Blue Gradient accent */
+  --accent-yellow: #FFD700; /* Sunny Yellow for highlights */
+  --success-green: #2ecc71;
+  --error-red: #e74c3c;
+  --text-dark: #2c3e50;
+  --card-bg: #ffffff;
+}
+
+body {
+  font-family: "Comic Neue", "Comic Sans MS", cursive, sans-serif;
+  font-size: 18px; /* Slightly larger font for kids */
+  /* Playful gradient background instead of photo for better readability */
+  background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+  min-height: 100vh;
+  padding: 20px;
+  color: var(--text-dark);
+  margin: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#wrapper {
+  background: var(--card-bg);
+  padding: 30px;
+  border-radius: 30px; /* Much rounder corners */
+  max-width: 700px;
+  width: 100%;
+  margin: 20px auto;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  border: 4px solid #fff; /* White border for pop */
+}
+
+h1 {
+  font-size: 2.2rem;
+  text-align: center;
+  margin-bottom: 25px;
+  color: var(--primary-color);
+  /* Fun, bubbly text shadow */
+  text-shadow: 2px 2px 0px var(--accent-yellow);
+  font-weight: 900;
+}
+
+/* ====== Start Screen Styles ====== */
+#start-screen { text-align: center; padding: 10px; }
+
+.input-group {
+  margin-bottom: 25px;
+  text-align: center;
+  max-width: 450px;
+  margin-left: auto;
+  margin-right: auto;
+  background: #f0faff;
+  padding: 20px;
+  border-radius: 20px;
+  border: 2px dashed var(--primary-color);
+}
+
+.input-group label {
+  display: block;
+  font-size: 1.3rem;
+  margin-bottom: 12px;
+  font-weight: bold;
+  color: var(--primary-color);
+}
+
+.input-group select {
+  width: 90%;
+  padding: 15px;
+  font-size: 1.2rem;
+  border: 3px solid #bce0fd;
+  border-radius: 15px;
+  box-sizing: border-box;
+  background: white;
+  color: #555;
+  cursor: pointer;
+  font-family: inherit;
+}
+.input-group select:focus {
+  border-color: var(--primary-color);
+  outline: none;
+  box-shadow: 0 0 10px #bce0fd;
+}
+
+/* Google Button Area */
+.google-btn-container {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  background: #fffcf0;
+  padding: 20px;
+  border-radius: 20px;
+  border: 2px dashed var(--accent-yellow);
+}
+
+.google-label {
+    margin-bottom:15px; font-weight:bold; color:#f39c12; font-size: 1.3rem;
+}
+
+#welcome-msg {
+    display: none;
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #d1f2eb;
+    border-radius: 15px;
+    color: var(--success-green);
+    font-weight: bold;
+    font-size: 1.1rem;
+    border: 3px solid #a3e4d7;
+}
+
+#manualStartBtn {
+    display: none;
+    font-size: 1.5rem;
+    padding: 15px 40px;
+    background: var(--success-green);
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    margin-top: 20px;
+    font-weight: bold;
+    box-shadow: 0 6px 0 #219a52; /* 3D effect */
+    transition: transform 0.1s;
+    font-family: inherit;
+}
+#manualStartBtn:active {
+    transform: translateY(4px);
+    box-shadow: 0 2px 0 #219a52;
+}
+
+/* ====== Quiz Content Styles ====== */
+#quiz-content { display: none; }
+
+#student-info-display {
+    text-align: right; font-size: 1rem; color: var(--primary-color);
+    margin-bottom: 15px; border-bottom: 2px dashed #eee; padding-bottom: 10px;
+    font-weight: bold;
+}
+
+#q-index {
+    font-size: 1.3rem; margin-bottom: 15px; font-weight: bold; color: #7f8c8d;
+    background: #eee; display: inline-block; padding: 5px 15px; border-radius: 20px;
+}
+
+#question {
+    font-size: 1.8rem; margin-bottom: 30px; line-height: 1.4;
+    font-weight: bold; color: var(--text-dark);
+}
+
+/* Option Buttons */
+.opt {
+    font-size: 1.4rem;
+    padding: 18px 25px;
+    margin-bottom: 18px;
+    border-radius: 50px; /* Pill shape */
+    border: 3px solid #e0e0e0;
+    background: #fff;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+    position: relative;
+    overflow: hidden;
+}
+.opt:hover {
+    background: #f0f8ff;
+    border-color: var(--primary-color);
+    transform: scale(1.02); /* Slight zoom on hover */
+}
+.opt.correct {
+    background: #d4edda; border-color: var(--success-green); color: #155724;
+    box-shadow: inset 0 0 0 3px #c3e6cb; /* Inner glow */
+}
+.opt.wrong {
+    background: #f8d7da; border-color: var(--error-red); color: #721c24;
+}
+
+/* Controls & Score */
+.controls { margin-top: 30px; text-align: center; }
+
+#nextBtn {
+    font-size: 1.4rem; padding: 15px 35px;
+    background: var(--primary-color); color: white;
+    border: none; border-radius: 50px;
+    cursor: pointer;
+    box-shadow: 0 6px 0 #2c80b9;
+    font-weight: bold; font-family: inherit;
+    transition: transform 0.1s;
+}
+#nextBtn:active {
+    transform: translateY(4px); box-shadow: 0 2px 0 #2c80b9;
+}
+#nextBtn:disabled {
+    background: #bdc3c7; box-shadow: none; cursor: not-allowed; color: #ecf0f1;
+    transform: none;
+}
+
+.score {
+    font-size: 1.8rem; margin-top: 20px; font-weight: 900;
+    color: var(--accent-yellow);
+    text-shadow: 1px 1px 0 #e67e22;
+}
+
+/* Final Results Styling */
+.final-score-big {
+    font-size: 4.5rem; margin: 25px 0; color: var(--success-green);
+    font-weight: 900; text-shadow: 3px 3px 0 #a3e4d7;
+}
+.result-box {
+    padding: 20px; border-radius: 15px; font-size: 1.2rem; margin: 20px auto; max-width: 80%;
+}
+.result-success { background:#eafaf1; border: 3px solid var(--success-green); color: var(--success-green); }
+.result-error { background:#fdedec; border: 3px solid var(--error-red); color: var(--error-red); }
+
+</style>
+</head>
+<body>
+
+<div id="wrapper">
+  <h1>Preposition Exercise (Year 1)</h1>
+
+  <div id="start-screen">
+      <div class="input-group">
+          <label for="student-class">Step 1: Choose Your Class</label>
+          <select id="student-class">
+              <option value="">-- Select Class --</option>
+              <option value="1M">1M</option>
+              <option value="1K">1K</option>
+              <option value="1B">1B</option>
+              <option value="1H">1H</option>
+              <option value="1J">1J</option>
+              <option value="1U">1U</option>
+          </select>
+      </div>
+
+      <div class="google-btn-container">
+          <label class="google-label">Step 2: Google Sign-In</label>
+          
+          <div id="g_id_onload"
+               data-client_id="1006856013626-uk3eq5tchv9t65gqosb0k6rst7hi1eeb.apps.googleusercontent.com"
+               data-callback="handleCredentialResponse"
+               data-auto_prompt="false">
+          </div>
+          
+          <div class="g_id_signin"
+               data-type="standard"
+               data-size="large"
+               data-theme="filled_blue"
+               data-text="sign_in_with"
+               data-shape="pill"
+               data-logo_alignment="left">
+          </div>
+
+          <div id="welcome-msg"></div>
+          <button id="manualStartBtn">Start Now! 🚀</button>
+      </div>
+  </div>
+
+  <div id="quiz-content">
+      <div id="student-info-display"></div>
+      <div id="q-index">Question <span id="cur">1</span> / <span id="total">0</span></div>
+      <div id="question"></div>
+      <div id="options"></div>
+      
+      <div class="controls">
+        <button id="nextBtn" disabled>Next Question ➜</button>
+        <div class="score" id="score">Score: 0</div>
+      </div>
+  </div>
+</div>
+
+<script>
+// ====== Google Apps Script URL (Unchanged) ======
+const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwoeuXKtsQSeYH3YURXriC_tcPzyuwppnCyV62S2n9N8qM2F7ieYP0i6BwKlcwj9Zbw/exec";
+
+// ====== Question Data (Unchanged) ======
+const rawData = `
+1,The cat is sleeping ____ the sofa. A. in B. on C. at D. to,B
+2,Please put your pencil ____ the pencil case. A. on B. under C. in D. up,C
+3,The ball is ____ the table. A. under B. in C. to D. for,A
+4,The bird is flying ____ the sky. A. on B. at C. in D. under,C
+5,My shoes are ____ the bed. A. in B. under C. on D. up,B
+6,The picture is hanging ____ the wall. A. in B. at C. on D. by,C
+7,The fish is swimming ____ the pond. A. on B. in C. at D. under,B
+8,The teacher is standing ____ front of the class. A. in B. on C. at D. to,A
+9,The ruler is ____ the book. A. at B. in C. on D. up,C
+10,Ali sits next ____ Abu in class. A. to B. in C. on D. at,A
+`;
+
+const data = rawData.trim().split("\n").map(line=>{
+  const parts = line.split(",");
+  const answer = parts.pop().trim().toUpperCase();
+  const full = parts.join(",").trim();
+  const optStart = full.indexOf("A.");
+  const qtext = full.slice(0, optStart).trim();
+  const optParts = full.slice(optStart).split(/\s(?=[A-C]\.\s)/).map(s=>s.trim().replace(/^[A-C]\.\s*/, ""));
+  return { q: qtext, options: optParts, answer: {A:0,B:1,C:2}[answer] };
+});
+
+// ====== Global Variables (Unchanged) ======
+let current = 0;
+let score = 0;
+let answered = false;
+let studentName = "";
+let studentClass = "";
+let studentEmail = "";
+
+// ====== DOM Elements (Unchanged) ======
+const startScreen = document.getElementById('start-screen');
+const quizContent = document.getElementById('quiz-content');
+const infoDisplay = document.getElementById('student-info-display');
+const classInput = document.getElementById('student-class');
+
+document.getElementById('total').textContent = data.length;
+
+// ====== 1. Google Login Logic (Logic Unchanged, Text translated) ======
+
+function parseJwt (token) {
+    var base64Url = token.split('.')[1];
+    var base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
+    var jsonPayload = decodeURIComponent(window.atob(base64).split('').map(function(c) {
+        return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+    }).join(''));
+    return JSON.parse(jsonPayload);
+}
+
+function handleCredentialResponse(response) {
+    console.log("Encoded JWT ID token: " + response.credential);
+    const responsePayload = parseJwt(response.credential);
+    studentName = responsePayload.name;
+    studentEmail = responsePayload.email;
+    
+    console.log("ID: " + responsePayload.sub);
+    console.log('Full Name: ' + studentName);
+    console.log('Email: ' + studentEmail);
+
+    document.querySelector('.g_id_signin').style.display = 'none';
+    
+    const welcomeDiv = document.getElementById('welcome-msg');
+    welcomeDiv.style.display = 'block';
+    // Updated Welcome message language
+    welcomeDiv.innerHTML = `🎉 Welcome, ${studentName}!<br><small>(${studentEmail})</small>`;
+    
+    checkAndStart();
+}
+
+function checkAndStart() {
+    const sClass = classInput.value;
+    
+    if (sClass) {
+        studentClass = sClass;
+        setTimeout(startQuiz, 1000);
+    } else {
+        // Updated Alert language
+        alert("Login successful! Please choose your CLASS to start.");
+        const btn = document.getElementById('manualStartBtn');
+        btn.style.display = 'block';
+        btn.onclick = function() {
+            if(!classInput.value) {
+                // Updated Alert language
+                alert("Please choose your class first!");
+            } else {
+                studentClass = classInput.value;
+                startQuiz();
+            }
+        };
+    }
+}
+
+classInput.addEventListener('change', function() {
+    if(studentName && document.getElementById('manualStartBtn').style.display === 'block') {
+         // Do nothing, wait for button click
+    }
+});
+
+// ====== 2. Quiz Logic (Logic Unchanged, Text translated) ======
+function startQuiz() {
+    startScreen.style.display = 'none';
+    quizContent.style.display = 'block';
+    // Updated Info Display language
+    infoDisplay.textContent = `Student: ${studentName} (${studentClass})`; 
+    loadQuestion();
+}
+
+function loadQuestion(){
+  answered = false;
+  document.getElementById('nextBtn').disabled = true;
+  // Updated Button text language
+  document.getElementById('nextBtn').textContent = "Next Question ➜";
+  
+  if(current >= data.length) {
+      submitToGoogleSheet();
+      return;
+  }
+
+  const q = data[current];
+  document.getElementById('question').innerHTML = q.q;
+  document.getElementById('cur').textContent = current + 1;
+  
+  const optsDiv = document.getElementById('options');
+  optsDiv.innerHTML = '';
+  
+  q.options.forEach((opt,i)=>{
+    const div = document.createElement('div');
+    div.className='opt';
+    div.innerHTML = opt;
+    div.addEventListener('click',()=>selectOption(div,i));
+    optsDiv.appendChild(div);
+  });
+  
+  if(current === data.length - 1) {
+      // Updated Button text language
+      document.getElementById('nextBtn').textContent = "Submit Answers ✅";
+  }
+  
+  if(window.MathJax) MathJax.typesetPromise();
+}
+
+function selectOption(el, index){
+  if(answered) return;
+  answered = true;
+  const q = data[current];
+  const all = document.querySelectorAll('.opt');
+  
+  all.forEach((d,i)=>{ if(i === q.answer) d.classList.add('correct'); });
+  
+  if(index !== q.answer) {
+      el.classList.add('wrong'); 
+  } else {
+      score++;
+  }
+  
+  // Updated Score text language
+  document.getElementById('score').textContent = 'Score: ' + score;
+  document.getElementById('nextBtn').disabled = false;
+}
+
+document.getElementById('nextBtn').addEventListener('click', () => {
+  current++;
+  loadQuestion();
+});
+
+// ====== 3. Submission Logic (Logic Unchanged, Text translated & Styled) ======
+function submitToGoogleSheet() {
+    // Updated Submission Loading text language
+    quizContent.innerHTML = `
+        <div style="text-align:center; padding:50px;">
+            <h2 style="color:var(--accent-yellow); font-size: 2.5rem;">⏳ Sending results...</h2>
+            <p>Please wait a moment.</p>
+        </div>
+    `;
+
+    const formData = new URLSearchParams();
+    formData.append("name", studentName);
+    formData.append("class", studentClass);
+    formData.append("score", score);
+    formData.append("total", data.length);
+
+    fetch(SCRIPT_URL, {
+        method: 'POST',
+        body: formData
+    })
+    .then(response => response.text())
+    .then(text => showFinalResult(true))
+    .catch(error => showFinalResult(false));
+}
+
+function showFinalResult(isSuccess) {
+    // Updated Final Result Messages language and added classes for styling
+    let msg = isSuccess ? 
+        `<div class="result-box result-success">✅ Successfully submitted! Well done!</div>` : 
+        `<div class="result-box result-error">⚠️ Connection Error. Please Screenshot this page.</div>`;
+
+    // Updated Final Screen language and added classes for styling
+    quizContent.innerHTML = `
+        <div style="text-align:center; padding: 30px;">
+            <h2 style="color:var(--primary-color); font-size: 2.5rem;">Congratulations, ${studentName}!🎉</h2>
+            <p style="font-size: 1.3rem;">Class: <strong>${studentClass}</strong></p>
+            <div class="final-score-big">
+                ${score} / ${data.length}
+            </div>
+            ${msg}
+            <button id="manualStartBtn" onclick="location.reload()" style="display:inline-block; margin-top:30px;">Try Again 🔄</button>
+        </div>
+    `;
+}
+</script>
+</body>
+</html>
