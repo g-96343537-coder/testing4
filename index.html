@@ -287,18 +287,18 @@ h1 {
 // ====== Google Apps Script URL (Unchanged) ======
 const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbwoeuXKtsQSeYH3YURXriC_tcPzyuwppnCyV62S2n9N8qM2F7ieYP0i6BwKlcwj9Zbw/exec";
 
-// ====== Question Data (Unchanged) ======
+// ====== Question Data (Modified to have only 3 options per question) ======
 const rawData = `
-1,The cat is sleeping ____ the sofa. A. in B. on C. at D. to,B
-2,Please put your pencil ____ the pencil case. A. on B. under C. in D. up,C
-3,The ball is ____ the table. A. under B. in C. to D. for,A
-4,The bird is flying ____ the sky. A. on B. at C. in D. under,C
-5,My shoes are ____ the bed. A. in B. under C. on D. up,B
-6,The picture is hanging ____ the wall. A. in B. at C. on D. by,C
-7,The fish is swimming ____ the pond. A. on B. in C. at D. under,B
-8,The teacher is standing ____ front of the class. A. in B. on C. at D. to,A
-9,The ruler is ____ the book. A. at B. in C. on D. up,C
-10,Ali sits next ____ Abu in class. A. to B. in C. on D. at,A
+1,The cat is sleeping ____ the sofa. A. in B. on C. at,B
+2,Please put your pencil ____ the pencil case. A. on B. under C. in,C
+3,The ball is ____ the table. A. under B. in C. to,A
+4,The bird is flying ____ the sky. A. on B. at C. in,C
+5,My shoes are ____ the bed. A. in B. under C. on,B
+6,The picture is hanging ____ the wall. A. in B. at C. on,C
+7,The fish is swimming ____ the pond. A. on B. in C. at,B
+8,The teacher is standing ____ front of the class. A. in B. on C. at,A
+9,The ruler is ____ the book. A. at B. in C. on,C
+10,Ali sits next ____ Abu in class. A. to B. in C. on,A
 `;
 
 const data = rawData.trim().split("\n").map(line=>{
@@ -307,7 +307,9 @@ const data = rawData.trim().split("\n").map(line=>{
   const full = parts.join(",").trim();
   const optStart = full.indexOf("A.");
   const qtext = full.slice(0, optStart).trim();
+  // regex [A-C] correctly handles splitting for 3 options
   const optParts = full.slice(optStart).split(/\s(?=[A-C]\.\s)/).map(s=>s.trim().replace(/^[A-C]\.\s*/, ""));
+  // mapping A:0, B:1, C:2 handles the answers for 3 options
   return { q: qtext, options: optParts, answer: {A:0,B:1,C:2}[answer] };
 });
 
